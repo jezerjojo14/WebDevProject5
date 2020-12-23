@@ -1,0 +1,204 @@
+{% load mathfilters %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'capstone/css/master.css' %}">
+    <title>Capstone</title>
+    <script type="text/javascript">
+      var searchViewURL="{% url 'search' %}";
+      var uploadViewURL="{% url 'upload' %}";
+      var downloadViewURL="{% url 'download' %}";
+      var loginViewURL="{% url 'login' %}";
+      var registerViewURL="{% url 'register' %}";
+      var logoutViewURL="{% url 'logout' %}";
+      var voteURL="{% url 'vote' %}";
+    </script>
+    <script type="text/javascript" src="{% static 'capstone/js/main.js' %}">
+    </script>
+  </head>
+  <body>
+    <div id="content">
+      <div id="top">
+        <div id="heading">
+          WikiMelodies
+        </div>
+        {% if user.is_authenticated %}
+        <div id="enter-user-control">
+          <a id="logout-btn" href="#">Log Out</a>
+        </div>
+        {% else %}
+        <div id="enter-user-control">
+          <a id="pseudo-login-btn" href="#">Log In / Register</a>
+        </div>
+        {% endif %}
+      </div>
+      <div id="counter-wrapper">
+        <p>When searching for a melody, only the last 16 notes recorded are considered. The rest are ignored by the search algorithm.</p>
+        <div id="counter">
+          <b>Notes counted: </b><span id="count">0</span>
+        </div>
+      </div>
+      <div id="upload-details">
+        <div class="form-group" style="text-align: left" id="upload-details-card">
+          <p>Song Name:</p>
+          <input id="title" class="form-control" type="text" name="title" value="" placeholder="Song Name"><br>
+          <p>Artist Name:</p>
+          <input id="artist" class="form-control" type="text" name="artist" value="" placeholder="Artist Name"><br>
+          <button id="upload-btn" class="btn btn-primary" name="button">Upload</button>
+          <button id="cancel-upload-btn" class="btn btn-secondary" name="button">Cancel</button>
+        </div>
+      </div>
+      <div id="user-control">
+        <div class="card" id="user-control-card">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item">
+                <a id="login-tab" class="nav-link active" href="#">Log In</a>
+              </li>
+              <li class="nav-item">
+                <a id="register-tab" class="nav-link" href="#">Register</a>
+              </li>
+            </ul>
+          </div>
+          <div id="login-wrapper" class="card-body">
+            <h5 class="card-title">Log In</h5>
+            <p>
+              <small id="login-error-message" style="color: red"></small>
+            </p>
+            <div class="form-group">
+              <label for="login-username">Username</label>
+              <input type="text" class="form-control" id="login-username" name="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" class="form-control" id="login-password" name="password" placeholder="Password">
+            </div>
+            <button id="login-btn" class="btn btn-primary">Log In</button>
+            <button id="cancel-login-btn" class="btn btn-secondary" name="button">Cancel</button>
+          </div>
+          <div id="register-wrapper" class="card-body">
+            <h5 class="card-title">Register</h5>
+            <p>
+              <small id="register-error-message" style="color: red"></small>
+            </p>
+            <div class="form-group">
+              <label for="register-username">Username</label>
+              <input type="text" class="form-control" id="register-username" name="username" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+              <label for="register-password">Password</label>
+              <input type="password" class="form-control" id="register-password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Password</label>
+              <input type="password" class="form-control" id="confirm-password" name="confirmation" placeholder="Confirm Password">
+            </div>
+            <button id="register-btn" class="btn btn-primary">Register</button>
+            <button id="cancel-register-btn" class="btn btn-secondary" name="button">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div id="mobile-container">
+        <div class="left-arrow arrow">
+          <svg class="arrow-svg" viewBox="0 0 70 70" style="opacity: 0.5">
+            <polygon points="45,0 15,35 45,70" fill="black" stroke="black" />
+          </svg>
+        </div>
+        <div id="narrow-keyboard-container" data-oct="3">
+          <svg class="keyboard" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 80 60">
+              <rect data-note="1" data-oct="3" class="narrowkey key white" x="0" y="5" height="50" width="10"><title>C</title></rect>
+              <rect data-note="3" data-oct="3" class="narrowkey key white" x="10" y="5" height="50" width="10"><title>D</title></rect>
+              <rect data-note="5" data-oct="3" class="narrowkey key white" x="20" y="5" height="50" width="10"><title>E</title></rect>
+              <rect data-note="6" data-oct="3" class="narrowkey key white" x="30" y="5" height="50" width="10"><title>F</title></rect>
+              <rect data-note="8" data-oct="3" class="narrowkey key white" x="40" y="5" height="50" width="10"><title>G</title></rect>
+              <rect data-note="10" data-oct="3" class="narrowkey key white" x="50" y="5" height="50" width="10"><title>A</title></rect>
+              <rect data-note="12" data-oct="3" class="narrowkey key white" x="60" y="5" height="50" width="10"><title>B</title></rect>
+              <rect data-note="2" data-oct="3" class="narrowkey key black" x="7.5" y="5" height="25" width="5"><title>C#</title></rect>
+              <rect data-note="4" data-oct="3" class="narrowkey key black" x="17.5" y="5" height="25" width="5"><title>D#</title></rect>
+              <rect data-note="7" data-oct="3" class="narrowkey key black" x="37.5" y="5" height="25" width="5"><title>F#</title></rect>
+              <rect data-note="9" data-oct="3" class="narrowkey key black" x="47.5" y="5" height="25" width="5"><title>Ab</title></rect>
+              <rect data-note="11" data-oct="3" class="narrowkey key black" x="57.5" y="5" height="25" width="5"><title>Bb</title></rect>
+              <rect data-note="1" data-oct="4" class="narrowkey key white" x="70" y="5" height="50" width="10"><title>C</title></rect>
+          </svg>
+        </div>
+        <div class="right-arrow arrow">
+          <svg class="arrow-svg" viewBox="0 0 70 70" style="opacity: 1">
+            <polygon points="25,0 55,35 25,70" fill="black" stroke="black" />
+          </svg>
+        </div>
+      </div>
+      <div id="wide-keyboard-container">
+        {% for i in '   '|make_list %}<svg class="keyboard" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 70 60">
+            <rect data-note="1" data-oct="{{forloop.counter|add:2}}" class="key white" x="0" y="5" height="50" width="10"><title>C</title></rect>
+            <rect data-note="3" data-oct="{{forloop.counter|add:2}}" class="key white" x="10" y="5" height="50" width="10"><title>D</title></rect>
+            <rect data-note="5" data-oct="{{forloop.counter|add:2}}" class="key white" x="20" y="5" height="50" width="10"><title>E</title></rect>
+            <rect data-note="6" data-oct="{{forloop.counter|add:2}}" class="key white" x="30" y="5" height="50" width="10"><title>F</title></rect>
+            <rect data-note="8" data-oct="{{forloop.counter|add:2}}" class="key white" x="40" y="5" height="50" width="10"><title>G</title></rect>
+            <rect data-note="10" data-oct="{{forloop.counter|add:2}}" class="key white" x="50" y="5" height="50" width="10"><title>A</title></rect>
+            <rect data-note="12" data-oct="{{forloop.counter|add:2}}" class="key white" x="60" y="5" height="50" width="10"><title>B</title></rect>
+            <rect data-note="2" data-oct="{{forloop.counter|add:2}}" class="key black" x="7.5" y="5" height="25" width="5"><title>C#</title></rect>
+            <rect data-note="4" data-oct="{{forloop.counter|add:2}}" class="key black" x="17.5" y="5" height="25" width="5"><title>D#</title></rect>
+            <rect data-note="7" data-oct="{{forloop.counter|add:2}}" class="key black" x="37.5" y="5" height="25" width="5"><title>F#</title></rect>
+            <rect data-note="9" data-oct="{{forloop.counter|add:2}}" class="key black" x="47.5" y="5" height="25" width="5"><title>Ab</title></rect>
+            <rect data-note="11" data-oct="{{forloop.counter|add:2}}" class="key black" x="57.5" y="5" height="25" width="5"><title>Bb</title></rect>
+          </svg>{% endfor %}<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 20 60" height="100%">
+          <rect data-note="1" data-oct="6" class="key white" x="0" y="5" height="50" width="10"><title>C</title></rect>
+        </svg>
+      </div>
+      <div class="buttons-tray">
+        <button class="button" id="record-btn" type="button" name="button">
+          <svg class="button-svg" viewBox="0 0 70 70">
+            <circle cx="35" cy="35" r="20" stroke="white" fill="white" />
+          </svg>
+        </button>
+        <button class="button" id="play-btn" type="button" name="button" style="background-color: #888888">
+          <svg class="button-svg" viewBox="0 0 70 70">
+            <polygon points="25,15 55,35 25,55" fill="white" stroke="white" />
+          </svg>
+        </button>
+        <button class="button" id="search-btn" type="button" name="button" style="background-color: #888888">
+          <svg class="button-svg" viewBox="-7 -7 40 40" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path style="stroke-width: 2" d="M15.853 16.56c-1.683 1.517-3.911 2.44-6.353 2.44-5.243 0-9.5-4.257-9.5-9.5s4.257-9.5 9.5-9.5 9.5 4.257 9.5 9.5c0 2.442-.923 4.67-2.44 6.353l7.44 7.44-.707.707-7.44-7.44zm-6.353-15.56c4.691 0 8.5 3.809 8.5 8.5s-3.809 8.5-8.5 8.5-8.5-3.809-8.5-8.5 3.809-8.5 8.5-8.5z"/></svg>
+        </button>
+
+        <button class="button" id="pseudo-upload-btn" type="button" name="button" style="{% if user.is_authenticated is not True %}display: none; {% endif %}background-color: #888888">
+          <svg xmlns="http://www.w3.org/2000/svg" class="button-svg" viewBox="-5 -5 34 34"><path style="stroke-width: 0.3" d="M16 16h-3v5h-2v-5h-3l4-4 4 4zm3.479-5.908c-.212-3.951-3.473-7.092-7.479-7.092s-7.267 3.141-7.479 7.092c-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h3.5v-2h-3.5c-1.93 0-3.5-1.57-3.5-3.5 0-2.797 2.479-3.833 4.433-3.72-.167-4.218 2.208-6.78 5.567-6.78 3.453 0 5.891 2.797 5.567 6.78 1.745-.046 4.433.751 4.433 3.72 0 1.93-1.57 3.5-3.5 3.5h-3.5v2h3.5c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408z"/></svg>
+        </button>
+        <button class="button" id="download-btn" type="button" name="button" style="background-color: #888888">
+          <svg xmlns="http://www.w3.org/2000/svg" class="button-svg" viewBox="-8 -8 40 40"><path style="stroke-width: 0.3" d="M15.003 3h2.997v5h-2.997v-5zm8.997 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="result">
+      <button id="results-back-btn" class="button" name="button">
+        <svg  width="25" height="25" viewBox="0 -1 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path style="stroke: white; fill: white" d="M2.117 12l7.527 6.235-.644.765-9-7.521 9-7.479.645.764-7.529 6.236h21.884v1h-21.883z"/></svg>
+      </button>
+      <div id="result-text">
+
+      </div>
+      <div id="result-button-tray">
+        <br><br>
+        <button class="button" id="song-play-btn" type="button" name="button" style="background-color: #000">
+          <svg class="button-svg" viewBox="0 0 70 70">
+            <polygon points="25,15 55,35 25,55" fill="white" stroke="white" />
+          </svg>
+        </button>
+        &nbsp;&nbsp;
+        <button class="button" id="song-download-btn" type="button" name="button" style="background-color: rgb(136, 0, 255)">
+          <svg xmlns="http://www.w3.org/2000/svg" class="button-svg" viewBox="-8 -8 40 40"><path style="stroke-width: 0.3" d="M15.003 3h2.997v5h-2.997v-5zm8.997 1v20h-24v-24h20l4 4zm-19 5h14v-7h-14v7zm16 4h-18v9h18v-9z"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="loading">
+      <svg id="loader" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24"><path style="stroke: black;fill: black" d="M8.177 7.376l-3.042-5.268 1.731-1 3.044 5.273c-.634.237-1.221.571-1.733.995zm-2.177 4.624c0-.341.035-.674.09-1h-6.09v2h6.09c-.055-.326-.09-.659-.09-1zm1.377-3.824l-5.269-3.042-1 1.732 5.273 3.044c.237-.635.572-1.222.996-1.734zm8.447-.799l3.043-5.271-1.731-.999-3.046 5.275c.635.236 1.222.571 1.734.995zm1.795 2.534l5.276-3.046-1.001-1.731-5.27 3.042c.424.513.758 1.1.995 1.735zm-5.619-3.911c.341 0 .674.035 1 .09v-6.09h-2v6.09c.326-.055.659-.09 1-.09zm2.09 11.618l3.045 5.274 1.731-1-3.042-5.27c-.512.425-1.099.76-1.734.996zm-7.708-3.528l-5.272 3.044 1 1.732 5.268-3.042c-.425-.512-.76-1.099-.996-1.734zm11.528-3.09c.055.326.09.658.09 1s-.035.674-.09 1h6.09v-2h-6.09zm-1.286 4.823l5.27 3.043.999-1.732-5.274-3.045c-.237.635-.571 1.222-.995 1.734zm-8.447.801l-3.041 5.268 1.732 1 3.044-5.272c-.635-.237-1.223-.572-1.735-.996zm3.823 1.376c-.341 0-.674-.035-1-.09v6.09h2v-6.09c-.326.055-.659.09-1 .09z"/></svg>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
